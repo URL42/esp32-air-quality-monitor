@@ -1,0 +1,48 @@
+# config.py - edit this file to configure your AirCube
+
+# --- WiFi ---
+WIFI_SSID = "your_ssid"
+WIFI_PASSWORD = "your_password"
+WIFI_TIMEOUT = 20  # seconds to wait for connection
+
+# --- Hardware Pins (ESP32-C6-DevKitC-1) ---
+SCD30_SDA = 6
+SCD30_SCL = 7
+SCD30_READY_PIN = None  # optional interrupt pin, set to None to use polling
+LED_PIN = 8             # onboard WS2812B RGB LED
+LED_COUNT = 1
+
+# --- SCD30 Settings ---
+SCD30_INTERVAL = 5       # measurement interval in seconds (2-1800)
+SCD30_AUTO_CALIBRATE = True  # enable automatic self-calibration
+# Set altitude (meters) OR pressure (mbar) for compensation, not both
+SCD30_ALTITUDE = 0       # set to your altitude in meters, or 0 to skip
+SCD30_PRESSURE = 0       # set to ambient pressure in mbar, or 0 to skip
+
+# --- LED ---
+LED_BRIGHTNESS = 0.3     # 0.0 to 1.0 default brightness
+
+# CO2 thresholds (ppm) -> LED color mapping
+# Format: (max_ppm, (r, g, b))
+# Colors are scaled by LED_BRIGHTNESS at runtime
+CO2_THRESHOLDS = [
+    (600,  (0,   255, 65)),   # green  - excellent
+    (800,  (180, 255, 0)),    # yellow-green - good
+    (1000, (255, 180, 0)),    # yellow - fair
+    (1500, (255, 60,  0)),    # orange - poor
+    (9999, (255, 0,   0)),    # red    - bad
+]
+
+# --- Web Server ---
+WEB_PORT = 80
+HISTORY_SIZE = 720       # number of readings to keep (~1hr at 5s interval)
+
+# --- MQTT (optional, set MQTT_ENABLED = False to disable) ---
+MQTT_ENABLED = False
+MQTT_BROKER = "192.168.1.1"
+MQTT_PORT = 1883
+MQTT_USER = ""
+MQTT_PASSWORD = ""
+MQTT_TOPIC_PREFIX = "aircube"   # topics: aircube/co2, aircube/temp, etc.
+MQTT_CLIENT_ID = "aircube_01"
+MQTT_INTERVAL = 30              # seconds between MQTT publishes
